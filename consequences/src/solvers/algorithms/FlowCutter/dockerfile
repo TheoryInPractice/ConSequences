@@ -1,0 +1,15 @@
+#Use official debian jessie docker image
+FROM debian:stretch
+LABEL pace=true
+WORKDIR /
+ADD flow-cutter-pace17 /flowcutter
+RUN apt-get update && apt-get -y install make g++ procps && \
+    make -C /flowcutter/
+ADD run.sh /run.sh
+RUN ["chmod", "+xw", "run.sh"]
+
+
+
+
+
+

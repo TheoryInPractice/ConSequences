@@ -1,0 +1,29 @@
+#!bin/bash
+set -x
+TIMEOUT=$2
+
+function timeout_monitor(){
+  sleep "$TIMEOUT"
+  kill "$1"
+}
+
+CID=$(awk -F/ '{ print $NF }' /proc/1/cpuset)
+
+IN="/data/$1"
+OUT="/data/output:$CID.td"
+
+( /p17/tw-exact  < $IN > output.tmp ) & pid=$!
+
+timeout_monitor $pid &
+timeout_pid=$!
+
+wait $pid
+
+cp output.tmp $OUT
+
+chmod 777 $OUT
+
+pkill $timeout_pid
+
+
+

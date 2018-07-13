@@ -1,0 +1,15 @@
+#Use official debian slim docker image
+FROM debian:stretch
+LABEL pace=true
+WORKDIR /
+
+ADD validator /validator
+RUN apt-get update && apt-get install -y make g++ && \
+    make -C validator
+ADD run.sh /run.sh
+RUN chmod +x run.sh
+
+
+
+
+

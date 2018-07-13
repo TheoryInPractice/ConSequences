@@ -1,0 +1,2 @@
+Filename,NumberOfQubits,CircuitCompileTime(s),TotalRunTime(s),FlopCount,MeasureTime(s),Expectation
+tests/rand-nq6-cn2-d10_rxz.qasm,6,0.0310,0.0600,2721,0.993037531105468000000000

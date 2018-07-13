@@ -1,0 +1,42 @@
+Circuit,Measurement,Final Value from TN
+test_JW.qasm,ZTTT,-0.620705
+test_JW.qasm,TZTT,-0.620705
+test_JW.qasm,YXXY,-0.784044
+4regRand20Node1-p1.qasm,measure125.txt,0.0035757
+4regRand20Node5-p1.qasm,measure125.txt,0.00255591
+Ry(0.1),X,0.0998334
+Ry(0.1),Y,0
+Ry(0.1),Z,0.995004
+Ry(-0.1),X,-0.0998334
+Ry(-0.1),Y,0
+Ry(-0.1),Z,0.995004
+"H, Rz(0.1)",X,0.995004
+"H, Rz(0.1)",Y,0.0998334
+"H, Rz(0.1)",Z,0
+"H, Rz(-0.1)",X,0.995004
+"H, Rz(-0.1)",Y,-0.0998334
+"H, Rz(-0.1)",Z,0
+Rx(0.1),X,0
+Rx(0.1),Y,-0.0998334
+Rx(0.1),Z,0.995004
+Rx(-0.1),X,0
+Rx(-0.1),Y,0.0998334
+Rx(-0.1),Z,0.995004
+"rand-nq6-cn2-d10_rx.qasm
+",XTXTXTXTXTXT…,0
+"rand-nq6-cn2-d10_rx.qasm
+",YTYTYTYTYTYT…,0.08170206
+"rand-nq6-cn2-d10_rx.qasm
+",ZTZTZTZTZTZT…,0.97151683
+"rand-nq6-cn2-d10_rxz.qasm
+",XTXTXTXTXTXT…,0
+"rand-nq6-cn2-d10_rxz.qasm
+",YTYTYTYTYTYT…,-5.225984638E-09
+"rand-nq6-cn2-d10_rxz.qasm
+",ZTZTZTZTZTZT…,0.99303753
+"rand-nq6-cn2-d10_rxyz.qasm
+",XTXTXTXTXTXT…,0.0003642395
+"rand-nq6-cn2-d10_rxyz.qasm
+",YTYTYTYTYTYT…,0.0001049235585
+"rand-nq6-cn2-d10_rxyz.qasm
+",ZTZTZTZTZTZT…,0.988514405

@@ -1,0 +1,24 @@
+#Use official Alpine 3.6 docker image
+FROM alpine:3.6
+WORKDIR /
+ADD p17 /p17
+RUN apk add --update alpine-sdk automake-dev autoconf-dev libtool-dev boost-dev wxgtk-dev
+RUN git clone https://github.com/bingmann/stx-btree
+WORKDIR stx-btree
+RUN ./configure
+RUN make
+RUN make install
+WORKDIR /
+RUN make -C p17/
+
+FROM alpine:3.6
+LABEL pace=true
+COPY --from=0 /p17/ /p17/
+RUN apk add --update bash
+ADD run.sh /run.sh
+RUN ["chmod", "+x", "run.sh"]
+
+
+
+
+

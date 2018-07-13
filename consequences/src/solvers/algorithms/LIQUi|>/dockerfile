@@ -1,0 +1,18 @@
+#Use official debian jessie docker image
+FROM therealcaoyudong/qtorch_test 
+LABEL pace=true
+WORKDIR /
+COPY run.sh /run.sh
+COPY acceptLicence.sh /acceptLicence.sh
+COPY run_qasm.sh /root/Liquid/qasmsim/run_qasm.sh
+RUN chmod +x run.sh && \
+    chmod +x acceptLicence.sh && \
+    chmod +x /root/Liquid/qasmsim/run_qasm.sh && \
+    cp -r /root/Liquid/qasmsim/tests/ /tests/
+CMD "./acceptLicence.sh"
+
+
+
+
+
+
