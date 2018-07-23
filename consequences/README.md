@@ -85,19 +85,29 @@ docker run hello-world
 
 ## How to run
 
-### Provided algorithms
+At its core, `ConSequences` is a framework for testing contraction sequence algorithms on a user-defined dataset of interest.
+In this section we detail the algorithms provided and data formats supported natively, along with instructions for executing single runs and larger batch experiments from the command-line interface.
 
-_Description of provided algorithms coming soon_
 
-### Supported data formats
+#### Provided algorithms
+
+| Algorithm    | Description                    | Source Link                                       |
+|--------------|--------------------------------|---------------------------------------------------|
+| FreeTDI      | PACE 2017 winner               | https://github.com/freetdi/p17                    |
+| Meiji        | PACE 2017 runner-up            | https://github.com/TCS-Meiji/PACE2017-TrackA      |
+| netcon       | BFS-based from MERA literature | https://arxiv.org/abs/1304.6112                   |
+| QuickBB      | Elimination-ordering--based    | http://www.hlt.utdallas.edu/~vgogate/quickbb.html |
+| qTorch-Stoch | Heuristic provided in qTorch   | https://github.com/aspuru-guzik-group/qtorch      |
+
+#### Supported data formats
 
 _Description of provided data formats coming soon_
 
-### Running the command-line interface
+#### Running the command-line interface
 
 _Description of CLI commands coming soon_
 
-### Running a batch experiment
+#### Running a batch experiment
 
 _config file format coming soon_
 
