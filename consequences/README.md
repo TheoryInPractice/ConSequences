@@ -19,7 +19,69 @@ For stability, we recommend installing Docker Community Edition (CE) on the stab
 Detailed instructions for installing Docker CE can be found in the [docker docs](https://docs.docker.com/install/).
 
 ## Installation (Ubuntu 18.04)
-_Detailed installation guide for Ubuntu 18.04 LTS coming soon._
+
+_(This guide is current as of July 23, 2018)_
+
+
+#### Python3 Setup
+At time of writing, a fresh installation of Ubuntu 18.04 comes with `python3` already, but requires `pip3` to install the `virtualenv` virtual environment controller. Install it with
+
+```bash
+sudo apt-get install python3-pip
+```
+
+then install virtualenv:
+
+```bash
+pip3 install virtualenv
+```
+
+and finally initialize a new Python3 virtual environment:
+
+```bash
+virtualenv env -p python3
+```
+
+To activate this environment the from `consequences/` directory:
+
+```bash
+source env/bin/activate
+```
+
+You should now see `(env)` in the prefix of your terminal session. To deactivate the environment:
+
+```
+deactivate
+```
+
+The deactivation command can be run from any directory.
+
+With the virtual environment activated, install the Python3 `ConSequences` dependencies by running:
+
+```bash
+pip -r requirements.txt
+```
+
+#### Docker-CE Setup
+
+Docker-CE should be set up using the official [Docker Docs](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) installation guide. Follow it until you install docker-ce with the following command:
+
+```bash
+sudo apt-get install docker-ce
+```
+
+Natively, Docker must be run by root. Instead of typing `sudo` with every command, we instead follow the post-installation guidelines by creating a `docker` group for users who will be running docker images:
+
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
+After rebooting, run the following command to verify that Docker has been installed correctly:
+
+```bash
+docker run hello-world
+```
 
 ## How to run
 
