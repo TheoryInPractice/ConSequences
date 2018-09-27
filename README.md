@@ -2,7 +2,7 @@
 
 This repository hosts an (BSD 3-clause) open source framework for running contraction sequence algorithms for tensor network simulations. These algorithms come from two primary sources: The tensor network literature and the structural graph theory and algorithms literature. In this framework we provide pre- and post-processing routines for wrangling data, an algorithm dispatcher for easily running batch experiments, a command-line interface for computing a contraction sequence on a given network with a given algorithm, and a containerized method for running individual algorithms.
 
-For detailed notes on installing and using `ConSequences`, see the [README](conseqneces/README.md) in the `consequences` subfolder.
+For detailed notes on installing and using `ConSequences`, see the [README](consequences/README.md) in the `consequences` subfolder.
 
 For the experimental supplement to **"Benchmarking treewidth as a practical component of tensor-network--based quantum simulation"**, see the [README](paper/README.md) in the `paper` subfolder.
 
