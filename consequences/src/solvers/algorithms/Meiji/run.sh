@@ -16,14 +16,14 @@ fi
 # Our timeout function
 function timeout_monitor(){
     sleep "$TIMEOUT"
-    if ps -p $1 >/dev/null;
+    if ps -p $1 > /dev/null;
     then
         kill $(ps -o pid= --ppid $1)
     fi
 }
 
 # Run the treewidth solver
-{ time /p17/tw-exact < $IN > output.tmp 2>error.log; } 2> time.log  & pid=$!
+{ time java -classpath PACE2017-TrackA tw.exact.MainDecomposer < $IN > output.tmp 2> error.log; } 2> time.log & pid=$!
 
 # Start kill function
 ( timeout_monitor $pid ) &
@@ -42,5 +42,5 @@ RUNTIME=$(awk '/^user/{print $2}' time.log)
 echo "c user runtime $RUNTIME" | cat - output.tmp > temp && mv temp output.tmp
 
 # Copy the output file to the mounted dir, give permissions to everyone
+chmod 777 output.tmp
 cp output.tmp $OUT
-chmod 777 $OUT

@@ -5,9 +5,8 @@ LABEL pace=true
 WORKDIR /
 RUN apt-get update && apt-get install bash
 ADD run.sh /run.sh
-ADD quickbb_64 /quickbb_64
 ADD graph-to-cnf.py /graph-to-cnf.py
 ADD peo-to-td.py /peo-to-td.py
-RUN ["chmod", "+x", "run.sh"]
-RUN ["chmod", "+x", "quickbb_64" ]
-ENTRYPOINT [ "/bin/bash" ]
+RUN wget http://www.hlt.utdallas.edu/~vgogate/quickbb_64 &&\
+    chmod +x run.sh &&\
+    chmod +x quickbb_64

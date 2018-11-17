@@ -4,12 +4,12 @@ import os
 import argparse
 
 
-def generate_td(peo_filename, cnf_filename, td_filename):
+def generate_td(eo_filename, cnf_filename, td_filename):
     fout = open(td_filename, "w")
 
-    # get last line of .peo file
+    # get last line of .eo file
     last_line = ""
-    with open(peo_filename, "r") as infile:
+    with open(eo_filename, "r") as infile:
         lines = infile.readlines()
         for line in lines:
             if 'Treewidth' not in line:
@@ -23,12 +23,12 @@ def generate_td(peo_filename, cnf_filename, td_filename):
             if "p cnf " in line:
                 vertices = line.split()[2]
 
-        # Hacky fix: QuickBB doesn't always provide a complete PEO, so we need
+        # Hacky fix: QuickBB doesn't always provide a complete eo, so we need
         # to pad it with the missing vertices
-        peo_values = list(map(int, last_line.split()))
+        eo_values = list(map(int, last_line.split()))
         for vertex in range(1, int(vertices) + 1):
-            if vertex not in peo_values:
-                peo_values.append(vertex)
+            if vertex not in eo_values:
+                eo_values.append(vertex)
 
         neighborhood_list = [[] for i in range(int(vertices) + 1)]
         # print (len(neighborhood_list))
@@ -44,15 +44,15 @@ def generate_td(peo_filename, cnf_filename, td_filename):
 
     # get bags
     bag_list = [[]]
-    #peo_values = last_line.split()
-    for target in peo_values:
+    #eo_values = last_line.split()
+    for target in eo_values:
         bag_contents = []
         bag_contents.append(int(target))
         # for target_neighbor in neighborhood_list[int(value)]:
-        # for each target in the peo, check if each value later in the peo is a
+        # for each target in the eo, check if each value later in the eo is a
         # neighbor of the target.  if so, add to bag
         later = False
-        for value in peo_values:
+        for value in eo_values:
             if int(value) == int(target):
                 later = True
             if later:
@@ -118,7 +118,7 @@ def construct_argparser():
     """
 
     parser = argparse.ArgumentParser(description="Elimination ordering to tree decomposition")
-    parser.add_argument("peo_filename", type=str, help="Filename of input graph peo format (.peo)")
+    parser.add_argument("eo_filename", type=str, help="Filename of input graph eo format (.eo)")
     parser.add_argument("cnf_filename", type=str, help="Filename of the cnf graph (.cnf)")
     return parser
 
@@ -129,8 +129,8 @@ if __name__ == "__main__":
     """
 
     args = construct_argparser().parse_args()
-    peo_filename = os.path.abspath(args.peo_filename)
+    eo_filename = os.path.abspath(args.eo_filename)
     cnf_filename = os.path.abspath(args.cnf_filename)
-    td_filename = peo_filename.replace(".peo", ".td")
+    td_filename = eo_filename.replace(".eo", ".td")
 
-    generate_td(peo_filename, cnf_filename, td_filename)
+    generate_td(eo_filename, cnf_filename, td_filename)

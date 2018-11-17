@@ -2,8 +2,8 @@
 FROM debian:stretch
 LABEL pace=true
 WORKDIR /
-ADD p17 /p17
 RUN apt-get update && apt-get -y install make procps autotools-dev automake g++ git libboost-all-dev libtool && \
+git clone https://github.com/freetdi/p17 && \
 git clone https://github.com/bingmann/stx-btree && \
 cd /stx-btree/ && \
 ./configure && \
@@ -13,9 +13,3 @@ cd .. && \
 make -C /p17/
 ADD run.sh /run.sh
 RUN ["chmod", "+xw", "run.sh"]
-
-
-
-
-
-
