@@ -104,8 +104,12 @@ In this section we detail the algorithms provided and data formats supported nat
 All data must be in PACE's `.gr` format, specified here: https://pacechallenge.org/
 
 #### Defining a config file
-You must specify data and experiment
+The single interaction that a user has with the interface occurs at the config file.
+The configuration is split into two steps: data and experimental parameters.
 
+Three types of data input are supported: `regular` (as in r-regular graphs used for QAOA circuits), `mera`, and `manual`.
+
+The regular graph parameters specify a corpus of graphs to generate into the `output_dir`:
 ```
 # Data
 type: regular
@@ -115,6 +119,7 @@ graph_seeds: 1 1 1
 output_dir: /test
 ```
 
+The MERA parameters similarly define a corpus:
 ```
 # Data
 type: mera
@@ -122,34 +127,26 @@ type: mera
 output_dir: /test
 ```
 
+The manual option provides an `input_dir` containing graph files from a user-generated corpus (e.g. classic treewidth benchmarks, a new application, etc.):
 ```
 # Data
+type: manual
 input_dir: /my_graph_files (Folder where input files are kept)
+output_dir: /test
+```
+
+The experiment parameters included the following:
+```
 # Experiment
-num_threads: 1 (Yeah)
-algo_seed: default (none? These are exact algorithms)
-timeout: 1 (seconds)
-verbose: true (print everything)
-algorithms: meiji-e quickbb freetdi (these are all valid)
-csv_filename: default (config_filename.csv)
+num_threads: [from 1 to n]
+algo_seed: [default, or a positive int. Currently not used]
+timeout: 1 [seconds]
+verbose: true [print stdout and stderr from Python code and Docker calls]
+algorithms: [a space-separated list from meiji-e quickbb freetdi netcon qtorch]
+csv_filename: [default for config_filename.csv, or specified filename]
 ```
 
-#### Running a batch experiment
-
-```
-python batch.py -config experiment.cfg
-```
-## Templates for extension
-
-_Python template for adding new input data types:_
-
-```
-Modify Object class to allow new data config
-Provide your graph generator in src/data-generators
-```
-
-_Docker image template for adding new algorithms:_
-```
-Provide a build.sh, dockerfile, run.sh in src/solvers/algorithms
-(Optional) Upload this docker image to Dockerhub
+Once the experiment is defined in a config file (e.g. `experiment.cfg`), it can be executed with 
+```bash
+python consequences.batch.py -config experiment.cfg
 ```
