@@ -20,13 +20,13 @@ class TreeDecomposition:
         self.bags = {}
 
 
-class PerfectEliminationOrdering:
+class EliminationOrdering:
     """
     A named struct for convenience.
     """
     def __init__(self):
         """
-        A perfect elimination ordering is an ordered list of vertices.
+        A elimination ordering is an ordered list of vertices.
         """
         self.ordering = []
 

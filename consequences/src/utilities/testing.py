@@ -36,35 +36,35 @@ def check_isomorphism(directory, exact, print_headers_only):
         groups[key] = groups.get(key, []) + [graph_name]
 
     # Check if all graphs in a 'group' are isomorphic. If not, create an
-    # isomorphism 'subgroup'
+    # isomorphism 'eqv_class'
     for key in sorted(groups):
         graph_names = groups[key]
-        # Subgroups will have a representative and a list of isomorphic graphs
-        subgroups = {}
+        # eqv_classes will have a representative and a list of isomorphic graphs
+        eqv_classes = {}
 
-        # Initialize the first graph as its own isomorphism 'subgroup'
-        subgroups[0] = [0]
+        # Initialize the first graph as its own isomorphism 'eqv_class'
+        eqv_classes[0] = [0]
 
         # For each graph, check if it's isomorphic to a graph from each subgraph
         for i in range(1, len(graph_names)):
-            found_subgroup = False
-            for j in subgroups:
+            found_eqv_class = False
+            for j in eqv_classes:
                 if isomorphism_function(graphs[graph_names[i]],
                                         graphs[graph_names[j]]):
-                    subgroups[j].append(i)
-                    found_subgroup = True
+                    eqv_classes[j].append(i)
+                    found_eqv_class = True
                     break
-                if found_subgroup is False:
-                    subgroups[i] = [i]
+                if found_eqv_class is False:
+                    eqv_classes[i] = [i]
                     break
 
-        for counter, subgroup_root in enumerate(subgroups):
-            subgroup_graph_names = sorted([graph_names[x] for x in
-                                    subgroups[subgroup_root]])
-            representative = subgroup_graph_names[0]
+        for counter, eqv_class_root in enumerate(eqv_classes):
+            eqv_class_graph_names = sorted([graph_names[x] for x in
+                                           eqv_classes[eqv_class_root]])
+            representative = eqv_class_graph_names[0]
 
-            print("Group: (|V|={}, |E|={}, subgroup={}) \t number: {} \t all_isomorphic: {} \t representative: {}".format(*key, counter, len(subgroup_graph_names), True, representative))
+            print("Group: (|V|={}, |E|={}, eqv_class={}) \t number: {} \t all_isomorphic: {} \t representative: {}".format(*key, counter, len(eqv_class_graph_names), True, representative))
 
             if not print_headers_only:
-                for name in subgroup_graph_names:
+                for name in eqv_class_graph_names:
                     print("{}".format(name))

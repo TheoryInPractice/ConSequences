@@ -5,8 +5,11 @@ A collection of functions for reading data.
 """
 
 import networkx as nx
-from datastructures import ContractionSequence, TreeDecomposition,\
-                           PerfectEliminationOrdering
+from datastructures import (
+    ContractionSequence,
+    TreeDecomposition,
+    EliminationOrdering
+)
 
 
 def read_pace_to_networkx_graph(pace_filename):
@@ -123,9 +126,9 @@ def read_contraction_sequence(conseq_filename):
     return conseq
 
 
-def read_perfect_elimination_ordering(peo_filename):
-    peo = PerfectEliminationOrdering()
-    with open(peo_filename, 'r') as infile:
+def read_elimination_ordering(eo_filename):
+    eo = EliminationOrdering()
+    with open(eo_filename, 'r') as infile:
         for line in infile.readlines():
-            peo.ordering.append(int(line))
-    return peo
+            eo.ordering.append(int(line))
+    return eo

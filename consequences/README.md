@@ -101,18 +101,55 @@ In this section we detail the algorithms provided and data formats supported nat
 
 #### Supported data formats
 
-_Description of provided data formats coming soon_
+All data must be in PACE's `.gr` format, specified here: https://pacechallenge.org/
 
-#### Running the command-line interface
+#### Defining a config file
+You must specify data and experiment
 
-_Description of CLI commands coming soon_
+```
+# Data
+type: regular
+n: 30 31 1
+r: 3 4 1
+graph_seeds: 1 1 1
+output_dir: /test
+```
+
+```
+# Data
+type: mera
+...
+output_dir: /test
+```
+
+```
+# Data
+input_dir: /my_graph_files (Folder where input files are kept)
+# Experiment
+num_threads: 1 (Yeah)
+algo_seed: default (none? These are exact algorithms)
+timeout: 1 (seconds)
+verbose: true (print everything)
+algorithms: meiji-e quickbb freetdi (these are all valid)
+csv_filename: default (config_filename.csv)
+```
 
 #### Running a batch experiment
 
-_config file format coming soon_
-
+```
+python batch.py -config experiment.cfg
+```
 ## Templates for extension
 
-_Python template for adding new input data types coming soon_
+_Python template for adding new input data types:_
 
-_Docker image template for adding new algorithms coming soon_
+```
+Modify Object class to allow new data config
+Provide your graph generator in src/data-generators
+```
+
+_Docker image template for adding new algorithms:_
+```
+Provide a build.sh, dockerfile, run.sh in src/solvers/algorithms
+(Optional) Upload this docker image to Dockerhub
+```

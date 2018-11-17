@@ -22,9 +22,9 @@ def td_to_conseq(line_map_filename, td_filename, conseq_filename):
     td = read_td_to_tree_decomposition(td_filename)
     print("td bags:", td.bags)
     print("td tree edges:", td.tree.edges())
-    peo = td_to_peo(td)
-    print("peo:", peo.ordering)
-    conseq = peo_to_conseq(peo, line_map)
+    eo = td_to_eo(td)
+    print("eo:", eo.ordering)
+    conseq = eo_to_conseq(eo, line_map)
     print("conseq:", conseq.ordering)
     new_node_conseq = conseq_to_new_node_conseq(conseq)
     print("new_node_conseq:", new_node_conseq.ordering)
@@ -41,9 +41,9 @@ def conseq_to_td(graph_filename, line_graph_filename,
     print("qTorch conseq:", new_node_conseq.ordering)
     conseq = new_node_conseq_to_conseq(new_node_conseq, graph)
     print("conseq:", conseq.ordering)
-    peo = conseq_to_peo(conseq, line_map)
-    print("peo:", peo.ordering)
-    td = peo_to_td(peo, line_graph)
+    eo = conseq_to_eo(conseq, line_map)
+    print("eo:", eo.ordering)
+    td = eo_to_td(eo, line_graph)
     write_td(td, td_filename)
 
 
@@ -92,24 +92,24 @@ def networkx_graph_to_leglinks(graph):
     return legs
 
 
-def _increment_peo(td, peo):
+def _increment_eo(td, eo):
     """
     Given a TreeDecomposition and a (partial) PerfectEliminationOrdering, add
-    one more vertex to the PEO or recognize that we're
+    one more vertex to the eo or recognize that we're
     already done.
     Input:
         td (TreeDecomposition): A tree decomposition.
-        peo (PerfectEliminationOrdering): The perfect elimination ordering
+        eo (PerfectEliminationOrdering): The perfect elimination ordering
         currently being constructed.
     Output:
-        The final peo returned by a recursive call.
+        The final eo returned by a recursive call.
     """
 
-    # Base case: If one node left, add its vertices to the peo
+    # Base case: If one node left, add its vertices to the eo
     if td.tree.order() == 1:
         only_vertex = list(td.tree.nodes())[0]
-        peo.ordering += sorted(td.bags[only_vertex])
-        return peo
+        eo.ordering += sorted(td.bags[only_vertex])
+        return eo
 
     # Otherwise we can identify a leaf and its parent
     leaf = list(filter(lambda node: td.tree.degree[node] == 1,
@@ -121,10 +121,10 @@ def _increment_peo(td, peo):
     vertex_diff = td.bags[leaf] - td.bags[parent]
 
     # If there's a vertex in the leaf and not in the parent,
-    # then remove it from the graph and add it to the peo.
+    # then remove it from the graph and add it to the eo.
     if vertex_diff:
         next_vertex = min(vertex_diff)
-        peo.ordering.append(next_vertex)
+        eo.ordering.append(next_vertex)
         for key in td.bags:
             td.bags[key].discard(next_vertex)
 
@@ -134,10 +134,10 @@ def _increment_peo(td, peo):
         td.bags.pop(leaf)
 
     # Recurse until we hit the base case
-    return _increment_peo(td, peo)
+    return _increment_eo(td, eo)
 
 
-def td_to_peo(td):
+def td_to_eo(td):
     """
     Generates a perfect elimination ordering from a tree decomposition. The
     algorithm is taken from Markov and Shi Proof of Prop 4.2
@@ -145,20 +145,20 @@ def td_to_peo(td):
     Input:
         td (TreeDecomposition): A tree decomposition for a graph.
     Output:
-        peo (PerfectEliminationOrdering): A perfect elimination ordering
+        eo (PerfectEliminationOrdering): A perfect elimination ordering
         corresponding to the tree decomposition (Note: There may be multiple
-        valid peo for a given td).
+        valid eo for a given td).
     """
 
     # Copy the tree decomposition, my_td will be modified recursively
     my_td = copy.deepcopy(td)
 
-    # Recursively construct the peo
-    peo = _increment_peo(my_td, PerfectEliminationOrdering())
-    return peo
+    # Recursively construct the eo
+    eo = _increment_eo(my_td, PerfectEliminationOrdering())
+    return eo
 
 
-def peo_to_td(peo, line_graph):
+def eo_to_td(eo, line_graph):
     """
     Constructs a tree decomposition from a perfect elimination ordering.
     """
@@ -169,11 +169,11 @@ def peo_to_td(peo, line_graph):
     gr = nx.Graph(line_graph)
 
     # Compute the maximal cliques (will be the bags)
-    for bag_number, vertex in enumerate(peo.ordering, 1):
+    for bag_number, vertex in enumerate(eo.ordering, 1):
         # The clique is formed by a vertex and its neighbors
         clique = [vertex,]
-        # We want the neighbors in the order they appear in the peo
-        for neighbor in peo.ordering[bag_number-1:]:
+        # We want the neighbors in the order they appear in the eo
+        for neighbor in eo.ordering[bag_number-1:]:
             if gr.has_edge(vertex, neighbor):
                 clique.append(neighbor)
         td.bags[bag_number] = clique
@@ -195,13 +195,13 @@ def peo_to_td(peo, line_graph):
     return td
 
 
-def peo_to_conseq(peo, line_map):
+def eo_to_conseq(eo, line_map):
     """
     Generates a contraction sequence for the original graph, given a perfect
     elimination ordering for the line graph and a map between line graph
     vertices and original graph edges.
     Input:
-        peo (PerfectEliminationOrdering): A perfect elimination ordering for a
+        eo (PerfectEliminationOrdering): A perfect elimination ordering for a
         line graph.
         map (dictionary): A map between line graph vertices and original graph
         edges.
@@ -210,18 +210,18 @@ def peo_to_conseq(peo, line_map):
         original graph.
     """
     conseq = ContractionSequence()
-    for vertex in peo.ordering:
+    for vertex in eo.ordering:
         conseq.ordering.append(line_map[vertex])
     return conseq
 
 
-def conseq_to_peo(conseq, line_map):
+def conseq_to_eo(conseq, line_map):
     """
     Generates a contraction sequence for the original graph, given a perfect
     elimination ordering for the line graph and a map between line graph
     vertices and original graph edges.
     Input:
-        peo (PerfectEliminationOrdering): A perfect elimination ordering for a
+        eo (PerfectEliminationOrdering): A perfect elimination ordering for a
         line graph.
         map (dictionary): A map between line graph vertices and original graph
         edges.
@@ -229,15 +229,15 @@ def conseq_to_peo(conseq, line_map):
         conseq (ContractionSequence): An ordering on the edges from the
         original graph.
     """
-    peo = PerfectEliminationOrdering()
+    eo = PerfectEliminationOrdering()
     # Invert the line map
     inverted_line_map = {}
     for key in line_map:
         inverted_line_map[line_map[key]] = key
-    # Map conseq to peo
+    # Map conseq to eo
     for edge in conseq.ordering:
-        peo.ordering.append(inverted_line_map[edge])
-    return peo
+        eo.ordering.append(inverted_line_map[edge])
+    return eo
 
 
 def conseq_to_new_node_conseq(conseq):

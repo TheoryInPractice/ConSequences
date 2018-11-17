@@ -31,18 +31,17 @@ def write_leglinks(leglinks, filename):
             outfile.write(str(leglinks.incident_edges[key])[1:-1] + '\n')
 
 
-def write_peo(peo, filename):
+def write_eo(eo, filename):
     """
-    Writes peo to a file.
+    Writes eo to a file.
     Input:
-        peo (PerfectEliminationOrdering): A perfect elimination ordering
-        object.
+        eo (EliminationOrdering): An elimination ordering object.
     Output:
-        The file where the peo is written.
+        The file where the eo is written.
     """
 
     with open(filename, 'w') as outfile:
-        for node in peo.ordering:
+        for node in eo.ordering:
             outfile.write('{}\n'.format(node))
 
 
