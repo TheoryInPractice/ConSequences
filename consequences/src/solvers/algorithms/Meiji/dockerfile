@@ -1,5 +1,5 @@
 #Use official debian slim docker image
-FROM openjdk:jre-slim
+FROM openjdk:11-jre-slim
 LABEL pace=true
 WORKDIR /
 ADD run.sh /run.sh
