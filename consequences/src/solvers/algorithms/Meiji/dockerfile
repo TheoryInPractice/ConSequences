@@ -3,9 +3,9 @@ FROM openjdk:jre-slim
 LABEL pace=true
 WORKDIR /
 ADD run.sh /run.sh
-RUN apt-get update
-RUN apt-get -y install debian-keyring debian-archive-keyring
-RUN apt-get update && apt-get install -y git make openjdk-11-jdk
-RUN git clone https://github.com/TCS-Meiji/PACE2017-TrackA.git
-RUN javac PACE2017-TrackA/tw/exact/*.java
-RUN chmod +x run.sh
+RUN apt-get update && \
+    apt-get -y install debian-keyring debian-archive-keyring
+RUN apt-get update && apt-get install -y git make openjdk-11-jdk && \
+    git clone https://github.com/TCS-Meiji/PACE2017-TrackA.git && \
+    javac PACE2017-TrackA/tw/exact/*.java && \
+    chmod +x run.sh
